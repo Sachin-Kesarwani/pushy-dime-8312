@@ -12,7 +12,7 @@ import {
   } from '@chakra-ui/react'
 
 import React from 'react'
-export default function DrawerExample() {
+export default function DrawerExample({}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
   
