@@ -14,6 +14,7 @@ import Mens from "../NavPages/Men"
 import Kids from "../NavPages/Kids"
 import Sleeper from "../NavPages/Sleeper"
 import Cart from "../NavPages/Cart"
+import MensAndwomensSinglePage from "../SinglePages/MensWomensSingles"
 export default function AllRoutes(){
     return(
         <>
@@ -26,7 +27,8 @@ export default function AllRoutes(){
             <Route path="/sleeper" element={<Sleeper/>}/>
             <Route path="/kids" element={<Kids/>}/>
             <Route path="/shoes" element={<Shoes/>}/>
-            <Route path="/cart" element={<Cart/>}/>
+            <Route path="/cart/:useid" element={<Cart/>}/>
+            <Route path="/mens&womenSinglePage/:id" element={<MensAndwomensSinglePage/>}/>
         </Routes>
         </>
     )
