@@ -6,20 +6,21 @@ import axios from "axios"
 import EachCard from "./Eachcard"
 import Loadingindicator from "./Loading"
 import Pagination from "./Pagination"
-
+import { AscendingPrice,DescendingPrice } from "./Certainopera"
 
 export default function Mens(){
 let [Loading,setLoading]=useState(false)
 let [page,setPage]=useState(1)
 let [menspro,setmenspro]=useState([])
 let [totalProucts,setTotalProducts]=useState(1)
-
+let [order,setOrder]=useState("")
+let [col,setCol]=useState(1)
 function getNumofproducts(){
    
     axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens")
     .then((res)=>{
       
-        console.log(res.data.length)
+        // console.log(res.data.length)
         setTotalProducts(res.data.length)
        
       
@@ -31,7 +32,7 @@ let  numOfbtn=new Array(totalProucts)
 for(let i=1;i<=Math.ceil(totalProucts/9);i++){
     numOfbtn[i]=i
 }
-console.log( numOfbtn)
+// console.log( numOfbtn)
 async function  getMensdata(page){
     setLoading(true)
     try {
@@ -39,10 +40,11 @@ async function  getMensdata(page){
   
         let data=await res.json().then((res)=>{
             setLoading(false)
-            console.log(res)
+            // console.log(res)
             setmenspro(res)
+           // Changeorder(order)
         })
-        console.log(data)
+     
     } catch (error) {
         
     }
@@ -50,12 +52,32 @@ async function  getMensdata(page){
     useEffect(()=>{
        getMensdata(page)
        getNumofproducts()
+       
     },[page])
+useEffect(()=>{
+   Changeorder(order)
+    width()
+},[order])
+
+
+function width(){
+    let w=window.innerWidth
+    console.log(w)
+    if(w>860){
+      setCol(3)
+    }else if(w>500 && w<859){
+        setCol(2)
+    }else{
+        setCol(1)
+    }
+}
+
+
 
 function addTocart(id){
     axios.get(`https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens/${id}`)
     .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         delete res.data.id
         postdataInCart(res.data)
     })
@@ -68,14 +90,64 @@ function postdataInCart(obj){
         data:obj
     })
 }
-console.log(page)
+
+
+function Changeorder(order){
+// alert(order+"79")
+   if(order=="asc"){
+    setmenspro( menspro.sort((a,b)=>{
+        return b.price-a.price
+    }))
+   }
+   if(order=="desc"){
+    setmenspro( menspro.sort((a,b)=>{
+        return a.price-b.price
+    }))
+   } 
+   if(order=="ascRate"){
+    setmenspro( menspro.sort((a,b)=>{
+        return b.rating -a.rating
+    }))
+   }
+   if(order=="descRate"){
+    setmenspro( menspro.sort((a,b)=>{
+        return a.rating -b.rating
+    }))
+   } 
+}
+function desc(){
+   setOrder(()=>"desc")
+    Changeorder(order)
+  
+}
+function asc(){
+   setOrder(()=>"asc")
+   Changeorder(order)
+ 
+}
+function ascRating(){
+    setOrder(()=>"ascRate")
+   Changeorder(order)
+ 
+}
+function descRating(){
+   setOrder(()=>"descRate")
+   Changeorder(order)
+
+}
+//  alert(col)
     return Loading?<Loadingindicator/>:(
         <>
-       <Heading as="h2"   fontFamily={"Brush Script MT, Brush Script Std, cursive"}>Mens Section</Heading>
-        <Box  style={{width:"90%",margin:"auto",display:"grid",gridTemplateColumns:"repeat(3,1fr)"}} >
+          <Heading as="h2"   fontFamily={"Brush Script MT, Brush Script Std, cursive"}>Mens Section</Heading>
+        <Button margin={1} bg="yellow.400" onClick={asc}>Asc By Price</Button>
+        <Button  margin={1}  bg="yellow.400" onClick={desc}>Desc By Price </Button>
+        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Rating In Asc</Button>
+        <Button  margin={1} bg="yellow.400"  onClick={descRating}>Rating In Desc</Button>
+     
+        <Box  style={{width:"90%",margin:"auto",display:"grid",gridTemplateColumns:`repeat(${col},1fr)`}} >
         {
                 menspro.map((e)=>{
-                    return <div >
+                    return <div key={e.id} >
                     
                         <EachCard  addTocart ={addTocart} {...e} />
                         
