@@ -1,18 +1,52 @@
 
-import React from "react"
-
+import React, { useEffect } from "react"
+import SlideShow from "../Slideshow/SlideShow"
 import DrawerExample from "./Drawer"
 import { useDisclosure,Button,useColorModeValue,Text,Stack,Divider, Heading  } from "@chakra-ui/react"
 import { Image } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
+import { useState } from "react"
+
 export default function Home(){
     const { isOpen, onOpen, onClose } = useDisclosure()
+    let [showSlido,setshowSlido]=useState(false)
+    let [noofslidocard,setnoofslidocard]=useState(0)
     const btnRef = React.useRef()
 
     function open(){
         onOpen()
     }
+   useEffect(()=>{
+    getWidth()
+    GettopProducts()
+   })
 
+   let [data,setdata]=useState([])
+async function GettopProducts(){
+    try {
+        let res=await  fetch("https://63c79c9f075b3f3a91cf629e.mockapi.io/topProducts")
+        let data=await res.json().then((res)=>{
+            // console.log(res)
+            setdata(res)
+        })
+    } catch (error) {
+        
+    }
+}
+
+
+
+   function getWidth(){
+   let w=window.innerWidth
+    if(w>750){
+        // setshowSlido(true)
+        setnoofslidocard(3)
+    }else if(w>500 && w<749){
+        setnoofslidocard(2)
+    }else{
+        setnoofslidocard(1)
+    }
+   }
     return(
         <>
         <Heading>We have a lots of Varety</Heading>
@@ -62,7 +96,7 @@ export default function Home(){
               color:"black",
               border:"2px solid black"
             }}>
-         See Your Mens Product
+        Mens Product
           </Button>
           </Link>
           </Stack>
@@ -99,7 +133,7 @@ export default function Home(){
             <Button
           
             // rounded={'none'}
-            w={'40%'}
+            w={{lg:'40%',md:"50%",sm:"70%"}}
             margin="auto"
             mt={8}
             size={'sm'}
@@ -115,12 +149,16 @@ export default function Home(){
               color:"black",
               border:"2px solid black"
             }}>
-         See Your Womens Product
+        Womens Product
           </Button>
           </Link>
           </Stack>
        </div>
        <Divider orientation='horizontal' />
+    <Heading>Top Products</Heading>
+<SlideShow noofslidocard={noofslidocard} data={data}/>
+   
+      
         </>
     )
 }
