@@ -4,6 +4,9 @@ import { useState } from "react"
 import PaymentTable from "../Cart/PaymentTable"
 import { Tabs, TabList, TabPanels, useToast, Tab, TabPanel, Heading } from '@chakra-ui/react'
 import EachcardOfCart from "../Cart/EachCardofCart"
+import PrivateRoute from "../PrivateRoute/PrivateRoute"
+import { useContext } from "react"
+import { Authcontext } from "../Context/AuthContext"
 export default function Cart(){
 
     let [cartItem,setCartitem]=useState([])
@@ -22,6 +25,14 @@ useEffect(()=>{
     GetCartdata()
 },[])
 
+
+let {isAuth}=useContext(Authcontext)
+
+useEffect(()=>{
+    for(let i=0;i<cartItem.length;i++){
+      deleteCartitem(cartItem[i].id)
+    }
+},[isAuth])
 
 async function deleteCartitem(id){
 
@@ -95,6 +106,7 @@ async function increasePiece(id,piece){
 
     return (
         <>
+        {/* <PrivateRoute/> */}
         <Tabs isFitted variant='enclosed'>
   <TabList mb='1em'>
     <Tab>Your Products</Tab>

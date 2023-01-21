@@ -19,7 +19,13 @@ import WomensSinglePage from "../SinglePages/WomensSingle"
 import KidsSinglePage from "../SinglePages/KidsSingle"
 import ShoesSinglePage from "../SinglePages/ShoesSingle"
 import SleeperSinglePage from "../SinglePages/SleeperSingle"
-
+import PrivateRoute from "../PrivateRoute/PrivateRoute"
+import AdminPostdata from "../Admin/AdminTable"
+import AdminLogin from "../Admin/AdminLogin"
+import AdminSignup from "../Admin/AdminSignup"
+import AdminPrivate from "../PrivateRoute/AdminPrivate"
+import AdminWelcome from "../Admin/Adminwelcome"
+import Payment from "../Payment/PaymentPage"
 export default function AllRoutes(){
     return(
         <>
@@ -32,12 +38,29 @@ export default function AllRoutes(){
             <Route path="/sleeper" element={<Sleeper/>}/>
             <Route path="/kids" element={<Kids/>}/>
             <Route path="/shoes" element={<Shoes/>}/>
-            <Route path="/cart" element={<Cart/>}/>
+            <Route path="/cart" element={
+                <PrivateRoute>
+                 <Cart/>
+                </PrivateRoute>
+        
+            }/>
             <Route path="/mens&womenSinglePage/:id" element={<MensAndwomensSinglePage/>}/>
             <Route path="/womensinglrpage/:id" element={<WomensSinglePage/>}/>
             <Route path="/kidssinglepage/:id" element={<KidsSinglePage/>}/>
             <Route path="/shoessinglepage/:id" element={<ShoesSinglePage/>}/>
             <Route path="/sleepersinglepage/:id" element={<SleeperSinglePage/>}/>
+
+            <Route path="/adminPage" element={
+                <AdminPrivate>
+           <AdminPostdata/>
+                </AdminPrivate>
+        
+            }/>
+
+            <Route path="/adminSignup" element={<AdminSignup/>}/>
+            <Route path="/adminLogin" element={<AdminLogin/>}/>
+            <Route path="/adminwelcome" element={<AdminWelcome/>}/>
+            <Route  path="/payment"  element={<Payment/>}   />
         </Routes>
         </>
     )
