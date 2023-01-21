@@ -19,14 +19,14 @@ import {
     useToast,
   } from '@chakra-ui/react';
   import { useState } from 'react';
-  import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+  import { ViewIcon, ViewOffIcon} from '@chakra-ui/icons';
 import { useEffect } from 'react';
   import { useContext } from 'react';
 import { Authcontext } from '../Context/AuthContext';
-
-import AdminSignup from '../Admin/AdminSignup';
+import AdminLogin from './AdminLogin';
 import { useNavigate } from 'react-router-dom';
-  export default function Signup() {
+import { AdminAuthContext } from '../Context/AdminAuth';
+  export default function AdminSignup() {
 
     let navigate=useNavigate()
     const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +34,7 @@ import { useNavigate } from 'react-router-dom';
     let [alreadyusers,setalredyusers]=useState([])
     const { isOpen, onOpen, onClose } = useDisclosure();
     let [userexist,setuserexist]=useState(false)
-    let {makeAuth}=useContext(Authcontext)
+    let {makeAdminAuth,LogoutAuth,adminAuth}=useContext(AdminAuthContext)
 let toast=useToast()
 
 
@@ -44,7 +44,7 @@ let toast=useToast()
         obj.token= maketoken
         localStorage.setItem("Auth",JSON.stringify(obj))
         try {
-            let res=await fetch("https://63c79c9f075b3f3a91cf629e.mockapi.io/signup",{
+            let res=await fetch("https://63cbea8f9b72d2a88e047c59.mockapi.io/admin",{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -52,15 +52,17 @@ let toast=useToast()
                 body:JSON.stringify(obj)
             })
             let data=await res.json().then((res)=>{
-              localStorage.setItem("Log",JSON.stringify(obj))
-              toast({
-                title: `Successfully Signup`,
-                status: "success",
-                isClosable: true,
-              })
-                console.log(res)
-                makeAuth(res)
-              navigate("/")
+                toast({
+                    title: `Successfully Signup`,
+                    status: "success",
+                    isClosable: true,
+                  })
+                  localStorage.setItem("LogAdmin",JSON.stringify(obj))
+               // console.log(res)
+               makeAdminAuth()
+                navigate("/adminwelcome")
+                // makeAuth(res)
+              
             })
         } catch (error) {
             
@@ -68,7 +70,7 @@ let toast=useToast()
     }
    async  function checkstoreddata(obj){
       try {
-          let res=await fetch("https://63c79c9f075b3f3a91cf629e.mockapi.io/signup",{
+          let res=await fetch("https://63cbea8f9b72d2a88e047c59.mockapi.io/admin",{
             method:"GET",
             headers:{
                 "Content-Type":"application/json"
@@ -84,7 +86,12 @@ let toast=useToast()
                 }
             })
            if(alreadypresent){
-            alert("exist")
+            toast({
+                title: `This User  is already Exist`,
+                status: "warning",
+                isClosable: true,
+              })
+           
            }else{
             Register(obj)
            }
@@ -108,8 +115,8 @@ let toast=useToast()
         checkstoreddata()
     },[])
 
-    function navigatToadmin(){
-      navigate("/adminSignup")
+    function navigation(){
+       navigate("/adminLogin")
     }
     return (
       <Flex
@@ -121,10 +128,10 @@ let toast=useToast()
         <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
           <Stack align={'center'}>
             <Heading marginTop={"2"} fontSize={'4xl'} textAlign={'center'}>
-              Sign up
+            Admin Signup
             </Heading>
             <Text fontSize={'lg'} color={'gray.600'}>
-              to enjoy all of our cool features ✌️
+            Wecome to Lavish Look ✌️
             </Text>
           </Stack>
           <Box
@@ -137,24 +144,24 @@ let toast=useToast()
                 <Box>
                   <FormControl id="firstName" isRequired>
                     <FormLabel>First Name</FormLabel>
-                    <Input type="text"  variant='flushed'  name="fname" onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})}  />
+                    <Input variant='flushed' type="text"  name="fname" onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})}  />
                   </FormControl>
                 </Box>
                 <Box>
                   <FormControl id="lastName">
                     <FormLabel>Last Name</FormLabel>
-                    <Input type="text"  variant='flushed'  name="lname" onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})}  />
+                    <Input variant='flushed' type="text"  name="lname" onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})}  />
                   </FormControl>
                 </Box>
               </HStack>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" name="email"  variant='flushed' onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})} />
+                <Input variant='flushed' type="email" name="email" onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})} />
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
-                  <Input  variant='flushed' type={showPassword ? 'text' : 'password'} name="password" onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})}/>
+                  <Input variant='flushed' type={showPassword ? 'text' : 'password'} name="password" onChange={(e)=>setdata({...data,[e.target.name]:e.target.value})}/>
                   <InputRightElement h={'full'}>
                     <Button
                       variant={'ghost'}
@@ -181,7 +188,7 @@ let toast=useToast()
               </Stack>
               <Stack pt={6}>
                 <Text align={'center'}>
-                 If You want To sell your Product ? Please <Link onClick={navigatToadmin} color={'red.400'}>Signup</Link>
+                 If You are already Signup So , Please? <Link onClick={navigation} color={'red.400'}>Login</Link>
                 </Text>
               </Stack>
             </Stack>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
-import {Image,Box, Button, Heading} from "@chakra-ui/react"
+import {Image,Box, Button, Heading,useToast} from "@chakra-ui/react"
 import axios from "axios"
 import EachCard from "./Eachcard"
 import Loadingindicator from "./Loading"
@@ -15,6 +15,8 @@ let [menspro,setmenspro]=useState([])
 let [totalProucts,setTotalProducts]=useState(1)
 let [order,setOrder]=useState("")
 let [col,setCol]=useState(1)
+
+let toast=useToast()
 function getNumofproducts(){
    
     axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens")
@@ -79,16 +81,59 @@ function addTocart(id){
     .then((res)=>{
         // console.log(res.data)
         delete res.data.id
+        res.data.pcs=1
         postdataInCart(res.data)
     })
 }
 
-function postdataInCart(obj){
+
+let [cartData,setCartdata]=useState([])
+function getCartdata(obj){
+    axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/cart")
+    .then((res)=>{
+   setCartdata(res.data)
+
+    })
+}
+async function postdataInCart(obj){
+  //  alert("entry1")
+    getCartdata(obj)
+    let notThere=true
+    cartData.forEach((e)=>{
+        if(e.image===obj.image){
+            notThere=false
+        }
+    })
+
+
+console.log(cartData)
+    if(notThere){
     axios({
         method:"post",
         url:'https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/cart',
         data:obj
+    }).then((res)=>{
+      //  alert("entry2")
+        toast({
+            title: `Product Added To Cart`,
+            status: "success",
+            isClosable: true,
+          })
     })
+
+    
+   
+    }else{
+        toast({
+            title: `Product Already In the cart`,
+            status: "warning",
+            isClosable: true,
+          })
+         
+    }
+
+
+   
 }
 
 

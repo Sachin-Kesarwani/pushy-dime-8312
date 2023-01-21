@@ -67,14 +67,17 @@ props.increasePiece(id,piece)
             <Heading fontSize={'2xl'} fontFamily={'body'}>
            {props.title}...
             </Heading>
-            <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              @lindsey_jam3s
-            </Text>
+            {/* <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+           
+            </Text> */}
+            <Badge color={"white"} bg={"red.900"} >
+              Biggest Offer
+            </Badge>
             <Text
               textAlign={'center'}
               color={useColorModeValue('gray.700', 'gray.400')}
               px={3}>
-              Actress, musician, songwriter and artist. PM for work inquires or
+            {props.description.substring(0, 30)}
               <Link href={'#'} color={'blue.400'}>
                 #tag
               </Link>
@@ -135,8 +138,9 @@ props.increasePiece(id,piece)
                color={'black'}
               >
                   
-                    {props.pcs}
-                   
+                  {
+                    props.pcs
+                  }
              
               </Button>
               <Button

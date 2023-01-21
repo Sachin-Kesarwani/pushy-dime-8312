@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import React from "react";
 import lavishlogo from "./lavishlogo.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Search2Icon } from "@chakra-ui/icons";
 import {
@@ -33,11 +33,14 @@ import {
   useColorModeValue,
   Stack,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import Login from "../Navbar/Login";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useContext } from "react";
+import { Authcontext } from "../Context/AuthContext";
 const Links = ["Dashboard", "Projects", "Team"];
 const Navbardata = [
   { link: "/", title: "HOME" },
@@ -47,6 +50,7 @@ const Navbardata = [
   { link: "/shoes", title: "SHOES" },
   { link: "/sleeper", title: "SLEEPERS" },
   { link: "/cart", title: "CART" },
+  {link:"/adminPage",title:"AdminPage"}
 ];
 const NavLink = ({ children }) => (
   <Link
@@ -68,6 +72,9 @@ export default function Simple() {
   const btnRef = React.useRef();
   let [showname, setshowname] = useState(false);
   let [signupbtn, setsignupbtn] = useState(false);
+  let {isAuth}=useContext(Authcontext)
+  let navigate=useNavigate()
+  let toast=useToast()
   function logoname() {
     let w = window.innerWidth;
     if (w > 697) {
@@ -83,11 +90,47 @@ export default function Simple() {
   useEffect(() => {
     logoname();
   }, []);
+
+let {Logout}=useContext(Authcontext)
+
+
+function LogoutPage(){
+  Logout()
+  toast({
+    title: `You Have Logout`,
+    status: "success",
+    isClosable: true,
+  });
+  navigate("/")
+}
+
+let [name,setName]=useState("")
+let LSdata= JSON.parse(localStorage.getItem("Log"))
+function shonameInLog(){
+    if(LSdata!==null){
+        setName(` Hi , ${LSdata.fname}`)
+    }
+}
+
+useEffect(()=>{
+    shonameInLog()
+},[LSdata])
+
+
+function closeSidemenu(){
+  setTimeout(()=>{
+    onClose()
+    navigate("/")
+  },1000)
+  
+}
+
+
   return (
     <>
       <div>
         <Box
-          bg={useColorModeValue("gray.100", "gray.900")}
+          bg={useColorModeValue("gray.200", "gray.900")}
           w="100%"
           paddingBottom={"1vw"}
         >
@@ -181,6 +224,7 @@ export default function Simple() {
               <DrawerHeader>! Welcome To Lavish-Look !</DrawerHeader>
 
               <DrawerBody>
+                <Heading>{isAuth?name:""}</Heading>
                 <DrawerHeader>Don't Have An Account?</DrawerHeader>
                 <Link to="/signup">
                   <Button
@@ -206,8 +250,36 @@ export default function Simple() {
                     CREATE A NEW ACCOUNT
                   </Button>
                 </Link>
+                <Login closeSidemenu={closeSidemenu} />
+
+
+                {
+                  isAuth? <Button
+                  onClick={LogoutPage}
+                  // rounded={'none'}
+                  w={"60%"}
+                  margin="auto"
+                  mt={8}
+                  size={"sm"}
+                  fontWeight={"800"}
+                  py={"5"}
+                bg={"red.700"}
+                 color="white"
+                  textTransform={"uppercase"}
+                  _hover={{
+                    transform: "translateY(2px)",
+                    boxShadow: "lg",
+                    bg: "white",
+                    color: "black",
+                    border: "2px solid black",
+                  }}
+                >
+                 LogOut
+                </Button>:null
+                }
+               
                 {/* <Input placeholder='Type here...' /> */}
-                <Login />
+              
               </DrawerBody>
 
               {/* <DrawerFooter>

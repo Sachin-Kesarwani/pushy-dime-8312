@@ -63,6 +63,7 @@ try {
       })
   }
     function postdataInCart(obj){
+      obj.pcs=1
       axios({
           method:"post",
           url:'https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/cart',

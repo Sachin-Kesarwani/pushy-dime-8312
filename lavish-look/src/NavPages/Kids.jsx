@@ -73,16 +73,12 @@ function addTocart(id){
 
 
 // let [notThere,setnotThere]=useState(true)
+
 function getCartdata(obj){
     axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/cart")
     .then((res)=>{
    setCartdata(res.data)
-//    res.data.forEach((e)=>{
-//     if(e.image===obj.image){
-//         setnotThere=false
-//     }
-// })
-//    console.log(res,77)
+
     })
 }
 
