@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom'
 
 
 export default function PaymentTable(props){
-console.log(props.cartItem)
+// console.log(props.cartItem)
 
 
 

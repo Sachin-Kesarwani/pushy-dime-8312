@@ -83,11 +83,11 @@ import {
             </Stack>
             <Stack align={'flex-start'}>
               <ListHeader>Follow Us</ListHeader>
-              <Link href={'#'}>Facebook</Link>
+              <Link href={'https://www.facebook.com/sachin.kesarwani.56027'}>Facebook</Link>
               <Link href={'#'}>Twitter</Link>
               <Link href={'#'}>Dribbble</Link>
               <Link href={'#'}>Instagram</Link>
-              <Link href={'#'}>LinkedIn</Link>
+              <Link href={'https://www.linkedin.com/in/sachin-kesarwani-079002247/'}>LinkedIn</Link>
             </Stack>
           </SimpleGrid>
         </Container>
@@ -108,10 +108,14 @@ import {
               flexGrow: 1,
               ml: 8,
             }}>
-         <Image w={{lg:"10vw",md:"10vw",sm:"15vw",base:"25vw"}} src={lavishlogo}/>
+              <Link to="/">
+
+              <Image w={{lg:"10vw",md:"10vw",sm:"15vw",base:"25vw"}} src={lavishlogo}/>
+              </Link>
+        
           </Flex>
           <Text pt={6} fontSize={'sm'} textAlign={'center'}>
-            © 2022 Chakra Templates. All rights reserved
+          Never Give up and take hope always.
           </Text>
         </Box>
        

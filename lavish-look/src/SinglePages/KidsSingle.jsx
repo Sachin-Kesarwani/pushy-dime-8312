@@ -32,7 +32,7 @@ import Loadingindicator from '../NavPages/Loading';
     let [showdata,setShowdata]=useState({})
     let [loading,setLoading]=useState(false)
    let param=useParams()
-   console.log(param)
+ //  console.log(param)
 async function getData(id){
   setLoading(true)
 try {
@@ -40,7 +40,7 @@ try {
   let data=await res.json().then((res)=>{
     setLoading(false)
     setShowdata({...res})
-  console.log(res)
+ // console.log(res)
   })
 } catch (error) {
   
@@ -57,7 +57,7 @@ try {
     function addTocart(id){
       axios.get(`https://63ca76f3d0ab64be2b5319f8.mockapi.io/Kids/${id}`)
       .then((res)=>{
-          console.log(res.data)
+        //  console.log(res.data)
           delete res.data.id
           postdataInCart(res.data)
       })
@@ -75,7 +75,7 @@ try {
 // }
 
 
-    console.log(showdata)
+   // console.log(showdata)
     return loading?<SingleLoadingindicator/>:(
     <>
        <Heading>Product Details</Heading>

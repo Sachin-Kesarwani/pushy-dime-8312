@@ -6,20 +6,24 @@ import { useDisclosure,Button,useColorModeValue,Text,Stack,Divider, Heading  } f
 import { Image } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { useState } from "react"
-
+import axios from "axios"
+import { useContext } from "react"
+import { Authcontext } from "../Context/AuthContext"
+import  Welcomhome from "../NavPages/welcome"
 export default function Home(){
     const { isOpen, onOpen, onClose } = useDisclosure()
     let [showSlido,setshowSlido]=useState(false)
     let [noofslidocard,setnoofslidocard]=useState(0)
     const btnRef = React.useRef()
-
+let {isAuth}=useContext(Authcontext)
     function open(){
         onOpen()
     }
    useEffect(()=>{
     getWidth()
     GettopProducts()
-   })
+    getCartdata()
+   },[])
 
    let [data,setdata]=useState([])
 async function GettopProducts(){
@@ -47,9 +51,55 @@ async function GettopProducts(){
         setnoofslidocard(1)
     }
    }
+
+   let [cartItem,setcartItem]=useState([])
+function getCartdata(){
+    axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/cart")
+    .then((res)=>{
+        setcartItem(res.data)
+      
+       setLog(isAuth)
+      
+     
+    })
+    
+}
+console.log(cartItem)
+   async function deleteCartitem(id){
+   
+
+    try {
+        let res=await fetch(`https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/cart/${id}`,{
+            method:"DELETE",
+            "Content-Type":"application/json"
+        })
+      
+    } catch (error) {
+        
+    }
+}
+
+let [log,setLog]=useState(isAuth)
+useEffect(()=>{
+    getCartdata()
+    // alert(log)
+    if(!log&&cartItem.length>=1){
+      //  getCartdata()
+    //   alert("del in process")
+        deloneByone()
+    }
+},[log,cartItem])
+
+function deloneByone(){
+//    alert("del in")
+    for(let i=0;i<cartItem.length;i++){
+        // alert("del")
+        deleteCartitem(cartItem[i].id)
+      }
+}
     return(
         <>
-        <Heading>We have a lots of Varety</Heading>
+     <Welcomhome/>
        <div style={{display:"flex",width:"100%"}} >
         <div width="50%">
             <Image  src="https://images.pexels.com/photos/769732/pexels-photo-769732.jpeg?auto=compress&cs=tinysrgb&w=600"/>

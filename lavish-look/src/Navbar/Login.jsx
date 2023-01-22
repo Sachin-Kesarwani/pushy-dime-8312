@@ -69,24 +69,15 @@ async function postLogindata(obj){
 
 function handleClick(e){
 e.preventDefault()
-console.log(data)
+// console.log(data)
 postLogindata(data)
 closeSidemenu()
 }
 
-console.log(LSdata)
+// console.log(LSdata)
     return(
         <>
-         {
-              
-
-
-         }
-         {/* <Heading>
-          
-                {name}
-          
-         </Heading> */}
+       
         <FormLabel>
      Email :
         <Input  variant='flushed' placeholder="Enter Your Email" name="email" onChange={(e)=>setData({...data,[e.target.name]:e.target.value})} />

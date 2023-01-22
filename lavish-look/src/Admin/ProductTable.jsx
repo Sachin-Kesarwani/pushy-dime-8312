@@ -42,7 +42,7 @@ export default function ProductTable(){
         })
         .then((res)=>{
             // console.log(res.data)
-            setmensarr(res.data.data)
+            setmensarr(res.data.data,url="https://63ca76f3d0ab64be2b5319f8.mockapi.io/womens")
         })
     }
   function handleedit(e){
@@ -93,21 +93,11 @@ export default function ProductTable(){
       </Tr>
     </Thead>
     <Tbody>
-      <Tr>
-        <Td>inches</Td>
-        <Td>millimetres (mm)</Td>
-        <Td isNumeric>25.4</Td>
-      </Tr>
-      <Tr>
-        <Td>feet</Td>
-        <Td>centimetres (cm)</Td>
-        <Td isNumeric>30.48</Td>
-      </Tr>
-      <Tr>
-        <Td>yards</Td>
-        <Td>metres (m)</Td>
-        <Td isNumeric>0.91444</Td>
-      </Tr>
+      {
+        mensarr.map((e)=>{
+
+        })
+      }
     </Tbody>
     <Tfoot>
       <Tr>

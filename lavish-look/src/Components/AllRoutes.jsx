@@ -60,7 +60,12 @@ export default function AllRoutes(){
             <Route path="/adminSignup" element={<AdminSignup/>}/>
             <Route path="/adminLogin" element={<AdminLogin/>}/>
             <Route path="/adminwelcome" element={<AdminWelcome/>}/>
-            <Route  path="/payment"  element={<Payment/>}   />
+            <Route  path="/payment"  element={
+                <PrivateRoute>
+<Payment/>
+                </PrivateRoute>
+            
+            }   />
         </Routes>
         </>
     )

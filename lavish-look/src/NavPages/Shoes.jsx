@@ -21,7 +21,7 @@ function getNumofproducts(){
     axios.get("https://63ca8992f36cbbdfc75aa2e5.mockapi.io/shoes")
     .then((res)=>{
       
-        console.log(res.data.length)
+       // console.log(res.data.length)
         setTotalProducts(res.data.length)
        
       
@@ -33,7 +33,7 @@ let  numOfbtn=new Array(totalProucts)
 for(let i=1;i<=Math.ceil(totalProucts/9);i++){
     numOfbtn[i]=i
 }
-console.log( numOfbtn)
+//console.log( numOfbtn)
 async function  getMensdata(page){
     setLoading(true)
     try {
@@ -41,10 +41,10 @@ async function  getMensdata(page){
   
         let data=await res.json().then((res)=>{
             setLoading(false)
-            console.log(res)
+          //  console.log(res)
             setmenspro(res)
         })
-        console.log(data)
+      //  console.log(data)
     } catch (error) {
         
     }
@@ -57,7 +57,7 @@ async function  getMensdata(page){
 function addTocart(id){
     axios.get(`https://63ca8992f36cbbdfc75aa2e5.mockapi.io/shoes/${id}`)
     .then((res)=>{
-        console.log(res.data)
+       // console.log(res.data)
         delete res.data.id
         res.data.pcs=1
         postdataInCart(res.data)
@@ -83,7 +83,7 @@ async function postdataInCart(obj){
     })
 
 
-console.log(cartData)
+//console.log(cartData)
     if(notThere){
     axios({
         method:"post",
@@ -177,10 +177,10 @@ function width(){
     return Loading?<Loadingindicator/>:(
         <>
        <Heading as="h2"   fontFamily={"Brush Script MT, Brush Script Std, cursive"}>Shoes Section</Heading>
-       <Button margin={1} bg="yellow.400" onClick={asc}>Asc By Price</Button>
-        <Button  margin={1}  bg="yellow.400" onClick={desc}>Desc By Price </Button>
-        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Rating In Asc</Button>
-        <Button  margin={1} bg="yellow.400"  onClick={descRating}>Rating In Desc</Button>
+       <Button margin={1} bg="yellow.400" onClick={asc}>Sort By Price In Asc</Button>
+        <Button  margin={1}  bg="yellow.400" onClick={desc}>Sort By Price In Desc</Button>
+        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Sort By Rating In Asc</Button>
+        <Button  margin={1} bg="yellow.400"  onClick={descRating}> Sort By Rating In Desc</Button>
         <Box  style={{width:"90%",margin:"auto",display:"grid",gridTemplateColumns:`repeat(${col},1fr)`}} >
         {
                 menspro.map((e)=>{

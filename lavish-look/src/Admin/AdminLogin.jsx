@@ -31,7 +31,7 @@ let toast=useToast()
                      "Content-Type":"application/json"
                  }
              })
-          
+          let notthere=false
              let data=await res.json()
              .then((res)=>{
                  // makeAuth(res)
@@ -39,8 +39,8 @@ let toast=useToast()
                      if(e.email==obj.email){
                           if(e.password==obj.password){
                             
-                   
-                          
+                   notthere=true
+                            localStorage.setItem("LogAdmin",JSON.stringify(e))    
                           
                            
                              toast({
@@ -53,6 +53,14 @@ let toast=useToast()
                           }
                      }
                  })
+
+                 if( notthere==false){
+                  toast({
+                    title: `Not Found`,
+                    status: "warning",
+                    isClosable: true,
+                  })
+                 }
                  //console.log(res)
              })
          } catch (error) {

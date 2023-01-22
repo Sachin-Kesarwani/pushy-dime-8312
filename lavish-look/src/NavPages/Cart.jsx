@@ -17,7 +17,7 @@ function GetCartdata(){
    axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/cart")
    .then((res)=>{
     setCartitem(res.data)
-    console.log(res.data)
+   // console.log(res.data)
    })
 }
 
@@ -29,7 +29,10 @@ useEffect(()=>{
 let {isAuth}=useContext(Authcontext)
 
 useEffect(()=>{
+
+  if(!isAuth)
     for(let i=0;i<cartItem.length;i++){
+      alert("del")
       deleteCartitem(cartItem[i].id)
     }
 },[isAuth])

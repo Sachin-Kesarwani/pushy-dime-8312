@@ -21,10 +21,10 @@ let [order,setOrder]=useState("")
 let toast=useToast()
 function getNumofproducts(){
    
-    axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens")
+    axios.get("https://63ca8992f36cbbdfc75aa2e5.mockapi.io/sleeper")
     .then((res)=>{
       
-        console.log(res.data.length)
+       // console.log(res.data.length)
         setTotalProducts(res.data.length)
        
       
@@ -40,14 +40,14 @@ console.log( numOfbtn)
 async function  getMensdata(page){
     setLoading(true)
     try {
-        let res=await fetch(`https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens?page=${page}&limit=9`)
+        let res=await fetch(`https://63ca8992f36cbbdfc75aa2e5.mockapi.io/sleeper?page=${page}&limit=9`)
   
         let data=await res.json().then((res)=>{
             setLoading(false)
             console.log(res)
             setmenspro(res)
         })
-        console.log(data)
+       // console.log(data)
     } catch (error) {
         
     }
@@ -58,9 +58,9 @@ async function  getMensdata(page){
     },[page])
 
 function addTocart(id){
-    axios.get(`https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens/${id}`)
+    axios.get(`https://63ca8992f36cbbdfc75aa2e5.mockapi.io/sleeper/${id}`)
     .then((res)=>{
-        console.log(res.data)
+      //  console.log(res.data)
         delete res.data.id
         res.data.pcs=1
         postdataInCart(res.data)
@@ -179,10 +179,10 @@ function width(){
     return Loading?<Loadingindicator/>:(
         <>
        <Heading as="h2"   fontFamily={"Brush Script MT, Brush Script Std, cursive"}>Sleeper Section</Heading>
-       <Button margin={1} bg="yellow.400" onClick={asc}>Asc By Price</Button>
-        <Button  margin={1}  bg="yellow.400" onClick={desc}>Desc By Price </Button>
-        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Rating In Asc</Button>
-        <Button  margin={1} bg="yellow.400"  onClick={descRating}>Rating In Desc</Button>
+       <Button margin={1} bg="yellow.400" onClick={asc}>Sort By Price In Asc</Button>
+        <Button  margin={1}  bg="yellow.400" onClick={desc}>Sort By Price In desc </Button>
+        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Sort By Rating In Asc</Button>
+        <Button  margin={1} bg="yellow.400"  onClick={descRating}>Sort By Rating In Desc</Button>
         <Box  style={{width:"90%",margin:"auto",display:"grid",gridTemplateColumns:`repeat(${col},1fr)`}} >
         {
                 menspro.map((e)=>{
