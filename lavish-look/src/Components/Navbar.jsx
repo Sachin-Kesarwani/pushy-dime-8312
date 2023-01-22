@@ -34,6 +34,7 @@ import {
   Stack,
   Heading,
   useToast,
+ Icon
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import Login from "../Navbar/Login";
@@ -97,11 +98,12 @@ let {Logout}=useContext(Authcontext)
 function LogoutPage(){
   Logout()
   toast({
-    title: `You Have Logout`,
+    title: `You Have Loged out`,
     status: "success",
     isClosable: true,
   });
   navigate("/")
+  onClose()
 }
 
 let [name,setName]=useState("")
@@ -125,12 +127,35 @@ function closeSidemenu(){
   
 }
 
+let [searchdata,setSearchdata]=useState("")
+function handleSearch(){
+  let data=searchdata.toLowerCase()
+  if(data=="mens"||data=="mens product" ||data=="mens products"||data=="mens shirt"||data=="shirt"||data=="tshirt"){
+    navigate("/mens")
+  }else if(data=="womens"||data=="women"||data=="womens product" ||data=="womens products"||data=="womens shirt"||data=="women shirt"||data==" women tshirt"||data=="jacket"||data=="womens jacket"){
+   navigate("/womens")
+  }else if(data=="kids"||data=="kid"||data=="chhota baccha"||data=="topi"||data=="cap"||data=="child"||data=="childtren"){
+       navigate("/kids")
+  }else if (data=="shoe"||data=="shoes"||data=="joota"||data=="juta"||data=="boot"||data=="campus shoes"||data=="hill shoes"){
+    navigate("/shoes")
+  }else if(data=="chappal"||data=="sleeper"||data=="chapal"||data=="night sleeper"||data=="sandal"||data=="men sandal"||data=="women sandal") {
+   navigate("/sleeper")
+  }else{
+    navigate("/mens")
+  }
+   
+   
+ 
+
+}
+
+
 
   return (
     <>
       <div>
         <Box
-          bg={useColorModeValue("gray.200", "gray.900")}
+          bg={useColorModeValue("orange.200", "gray.900")}
           w="100%"
           paddingBottom={"1vw"}
         >
@@ -146,15 +171,27 @@ function closeSidemenu(){
               </Link>
 
               <InputGroup>
-                <InputLeftElement
+                {/* <InputLeftElement
+                  // onClick={()=>alert("sjsj")}
                   pointerEvents="none"
-                  children={<Search2Icon color="black.800" />}
-                />
+                  children={<Search2Icon  color="black.800" />}
+                /> */}
                 <Input
                   variant="flushed"
-                  type="tel"
+                  type="text"
                   placeholder="Enter Product Category"
+                  onChange={(e)=>{
+                   
+                    setSearchdata(e.target.value)
+                    // setTimeout(()=>{
+                    //   handleSearch()
+                    // },3000)
+                  }     }
                 />
+                <Button bg={"gray.800"}  color="white" onClick={handleSearch}  >
+         
+                <Icon as={Search2Icon} />
+                </Button>
               </InputGroup>
             </HStack>
             <HStack>

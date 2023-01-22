@@ -7,11 +7,12 @@ import Login from "../Navbar/Login"
 
 import AdminWelcome from "./Adminwelcome"
 import { useEffect, useState } from "react"
-import { Button, Heading, Input, Select ,Container} from '@chakra-ui/react'
+import { Button, Heading, Input, Select ,Container,Tabs,TabList,TabPanel,TabPanels, Tab} from '@chakra-ui/react'
 import {ButtonGroup } from '@chakra-ui/react'
 import axios from "axios"
 import { useContext } from "react"
 import { AdminAuthContext } from "../Context/AdminAuth"
+import Tableofdata from "./Table"
 let inidata=  {
     title: '',
     price:"",
@@ -71,6 +72,7 @@ setLoadingpost(true)
     setLoadingpost(false)
    }).finally((res)=>{
     setLoadingpost(false)
+    getAlldata()
    })
  
 }
@@ -112,6 +114,7 @@ async function postEdit(url,obj){
         body:JSON.stringify(obj)
      })
      setLoadingedit(false)
+     getAlldata()
   } catch (error) {
    
   }
@@ -126,29 +129,57 @@ try {
         },
     })
     setLoadingdel(false)
+    getAlldata()
 } catch (error) {
    
 }
 }
-// let [name,setName]=useState("")
-// function showname(){
-//     let data=JSON.parse(localStorage.getItem("LogAdmin"))
-//     setName(data.fname)
-// }
-// useEffect(()=>{
-//     showname()
-// },[])
+
+
+useEffect(()=>{
+    getAlldata()
+},[])
+let [mensdata,setmensdata]=useState([])
+let [womensdata,setwomensdata]=useState([])
+let [kidsdata,setkidsdata]=useState([])
+let [shoesdata,setshoesdata]=useState([])
+let [sleeperdata,setsleeperdata]=useState([])
+function getAlldata(){
+   axios.get("https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens")
+   .then((res)=>{
+    setmensdata(res.data)
+   })
+
+   axios.get("https://63ca76f3d0ab64be2b5319f8.mockapi.io/womens")
+   .then((res)=>{
+    console.log(res.data)
+    setwomensdata(res.data)
+   })
+
+   axios.get("https://63ca76f3d0ab64be2b5319f8.mockapi.io/Kids")
+   .then((res)=>{
+    setkidsdata(res.data)
+   })
+  
+   axios.get("https://63ca8992f36cbbdfc75aa2e5.mockapi.io/shoes")
+   .then((res)=>{
+    setshoesdata(res.data)
+   })
+
+   axios.get("https://63ca8992f36cbbdfc75aa2e5.mockapi.io/sleeper")
+   .then((res)=>{
+    setsleeperdata(res.data)
+   })
+}
+
+console.log(mensdata)
+console.log(womensdata)
     return(
         <>
-        {/* < AdminWelcome  name={name} /> */}
-        {/* <AdminLogin/>
-    <AdminSignup/> */}
+      
          <Container maxW='md' bg='white' color='black'>
         <Heading>Add data Here, </Heading>
-        {/* <Heading as="h5" size='xs' >(Following URL is just for your testing)</Heading>
-        <Heading  as='h6' size='xs'>
-        https://63c43284a908563575336689.mockapi.io/products
-          </Heading> */}
+      
 <Select placeholder="Select Section For Post The Data"    onChange={(e)=>setUrl(e.target.value)} >
     <option value="https://63ca76f3d0ab64be2b5319f8.mockapi.io/womens" >In Womens Section</option>
     <option value="https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens">In Mens Section</option>
@@ -209,7 +240,8 @@ try {
         loadingpost?  <Button
           isLoading
        loadingText='Adding'
-        colorScheme='teal'
+       bg={"yellow.400"}
+        _hover={{bg:"yellow.400"}}
         variant='outline'
         spinnerPlacement='end'
         >
@@ -217,7 +249,8 @@ try {
         </Button>:  <Button
         onClick={Adddata}
        
-        colorScheme='teal'
+        bg={"yellow.400"}
+        _hover={{bg:"yellow.400"}}
         variant='outline'
         spinnerPlacement='end'
         >
@@ -226,50 +259,6 @@ try {
        }
      
 
-
-{/*
-         <Button onClick={Adddata}>Add</Button> */}
-         {/* <Button onClick={handleclick}>get</Button> */}
-        <Heading>Edit data here ,</Heading>
-        {/* <Heading  as='h6' size='xs'>
-        https://63c43284a908563575336689.mockapi.io/products
-          </Heading> */}
-          <Select placeholder="Select Section For Edit The Data"    onChange={(e)=>setUrl(e.target.value)} >
-    <option value="https://63ca76f3d0ab64be2b5319f8.mockapi.io/womens" >In Womens Section</option>
-    <option value="https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens">In Mens Section</option>
-    <option value="https://63ca76f3d0ab64be2b5319f8.mockapi.io/Kids" > In Kids Section </option>
-    <option value="https://63ca8992f36cbbdfc75aa2e5.mockapi.io/shoes" >In Shoes Section </option>
-    <option value="https://63ca8992f36cbbdfc75aa2e5.mockapi.io/sleeper" >In Sleeper Section</option>
-
-</Select>
-        {/* <Input placeholder="Enter URL where you want to EDIT" name="title" onChange={(e)=>setUrl(e.target.value)} /> */}
-        <Input placeholder="Enter Your  Product Id" value={editData.id}  name="id" onChange={editdata} />
-        <Input placeholder="PrductName" value={editData.title} name="title" onChange={editdata} />
-        <Input placeholder="Price" value={editData.price} name="price"onChange={editdata} />
-        <Input placeholder="Description" value={editData.description} onChange={editdata} name="description"/>
-        <Input placeholder="Image URL" value={editData.image} name="image"onChange={editdata} />
-        <Input placeholder="Category" value={editData.category} name="category"onChange={editdata} />
-        <Input placeholder="Rating" value={editData.rating} name="rating"onChange={editdata} />
-        <Input placeholder="Discount" value={editData.discount} name="discount"onChange={editdata} />
-        {
-        loadingedit?  <Button
-          isLoading
-       loadingText='Editing'
-        colorScheme='teal'
-        variant='outline'
-        spinnerPlacement='end'
-        >
-    Adding
-        </Button>:  <Button
-      onClick={handleedit}
-       
-        colorScheme='teal'
-        variant='outline'
-        spinnerPlacement='end'
-        >
-      Edit
-        </Button>
-       }
         {/* <Button onClick={handleedit} >Edit</Button> */}
         <Heading>Delete Data</Heading>
         {/* <Heading  as='h6' size='xs'>
@@ -291,7 +280,8 @@ try {
         loadingdel?  <Button
           isLoading
        loadingText='Deleting'
-        colorScheme='teal'
+       bg={"yellow.400"}
+       _hover={{bg:"yellow.400"}}
         variant='outline'
         spinnerPlacement='end'
         >
@@ -299,14 +289,119 @@ try {
         </Button>:  <Button
      onClick={()=>handledelete(url,Number(deleteid))}
        
-        colorScheme='teal'
+     bg={"yellow.400"}
+     _hover={{bg:"yellow.400"}}
         variant='outline'
         spinnerPlacement='end'
         >
      Delete
         </Button>
        }
-       </Container>
+      
+
+{/*
+         <Button onClick={Adddata}>Add</Button> */}
+         {/* <Button onClick={handleclick}>get</Button> */}
+        <Heading>Edit data here ,</Heading>
+ 
+          <Select placeholder="Select Section For Edit The Data"    onChange={(e)=>setUrl(e.target.value)} >
+    <option value="https://63ca76f3d0ab64be2b5319f8.mockapi.io/womens" >In Womens Section</option>
+    <option value="https://63c8d5b2c3e2021b2d4a4e00.mockapi.io/mens">In Mens Section</option>
+    <option value="https://63ca76f3d0ab64be2b5319f8.mockapi.io/Kids" > In Kids Section </option>
+    <option value="https://63ca8992f36cbbdfc75aa2e5.mockapi.io/shoes" >In Shoes Section </option>
+    <option value="https://63ca8992f36cbbdfc75aa2e5.mockapi.io/sleeper" >In Sleeper Section</option>
+
+</Select>
+        {/* <Input placeholder="Enter URL where you want to EDIT" name="title" onChange={(e)=>setUrl(e.target.value)} /> */}
+        <Input placeholder="Enter Your  Product Id" value={editData.id}  name="id" onChange={editdata} />
+        <Input placeholder="PrductName" value={editData.title} name="title" onChange={editdata} />
+        <Input placeholder="Price" value={editData.price} name="price"onChange={editdata} />
+        <Input placeholder="Description" value={editData.description} onChange={editdata} name="description"/>
+        <Input placeholder="Image URL" value={editData.image} name="image"onChange={editdata} />
+        <Input placeholder="Category" value={editData.category} name="category"onChange={editdata} />
+        <Input placeholder="Rating" value={editData.rating} name="rating"onChange={editdata} />
+        <Input placeholder="Discount" value={editData.discount} name="discount"onChange={editdata} />
+        {
+        loadingedit?  <Button
+          isLoading
+       loadingText='Editing'
+       bg={"yellow.400"}
+        _hover={{bg:"yellow.400"}}
+        spinnerPlacement='end'
+        >
+ Editting
+        </Button>:  <Button
+      onClick={handleedit}
+       
+      bg={"yellow.400"}
+      _hover={{bg:"yellow.400"}}
+        variant='outline'
+        spinnerPlacement='end'
+        >
+      Edit
+        </Button>
+
+   }
+   </Container>
+
+   <Heading>Products</Heading>
+   {/* <Container maxW={"2xl"}  >
+ 
+
+
+</Container> */}
+<Tabs>
+        <TabList>
+        <Tab>Mens Product</Tab>
+         <Tab>Womens Product</Tab>
+         <Tab>Kid Product</Tab>
+         <Tab>Shoes Product</Tab>
+         <Tab>Sleeper</Tab>
+        </TabList>
+        <TabPanels>
+            <TabPanel>
+            {
+ 
+         <Tableofdata  mensdata={mensdata} />
+
+    
+          }
+            </TabPanel>
+            <TabPanel>
+            {
+ 
+         <Tableofdata  mensdata={womensdata} />
+
+    
+          }
+            </TabPanel>
+            <TabPanel>
+            {
+ 
+         <Tableofdata  mensdata={kidsdata} />
+
+    
+          }
+          </TabPanel>
+           <TabPanel>
+            {
+ 
+         <Tableofdata  mensdata={shoesdata} />
+
+    
+          }
+            </TabPanel>
+            <TabPanel>
+            {
+ 
+         <Tableofdata  mensdata={sleeperdata} />
+
+    
+          }
+            </TabPanel>
+         
+        </TabPanels>
+      </Tabs>
        
         </>
     )

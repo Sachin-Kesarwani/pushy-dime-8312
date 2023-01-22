@@ -84,7 +84,11 @@ let toast=useToast()
                 }
             })
            if(alreadypresent){
-            alert("exist")
+            toast({
+              title: `User Already Exist`,
+              status: "warning",
+              isClosable: true,
+            })
            }else{
             Register(obj)
            }
@@ -123,9 +127,9 @@ let toast=useToast()
             <Heading marginTop={"2"} fontSize={'4xl'} textAlign={'center'}>
               Sign up
             </Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>
+            {/* <Text fontSize={'lg'} color={'gray.600'}>
               to enjoy all of our cool features ✌️
-            </Text>
+            </Text> */}
           </Stack>
           <Box
             rounded={'lg'}
@@ -181,7 +185,8 @@ let toast=useToast()
               </Stack>
               <Stack pt={6}>
                 <Text align={'center'}>
-                 If You want To sell your Product ? Please <Link onClick={navigatToadmin} color={'red.400'}>Signup</Link>
+                 If You have Already Account so please Login
+                  {/* <Link onClick={navigatToadmin} color={'red.400'}>Signup</Link> */}
                 </Text>
               </Stack>
             </Stack>

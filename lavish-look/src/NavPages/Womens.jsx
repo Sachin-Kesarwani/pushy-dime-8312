@@ -25,7 +25,7 @@ function getNumofproducts(){
     axios.get("https://63ca76f3d0ab64be2b5319f8.mockapi.io/womens")
     .then((res)=>{
       
-        console.log(res.data.length)
+      //  console.log(res.data.length)
         setTotalProducts(res.data.length)
        
       
@@ -37,7 +37,7 @@ let  numOfbtn=new Array(totalProucts)
 for(let i=1;i<=Math.ceil(totalProucts/9);i++){
     numOfbtn[i]=i
 }
-console.log( numOfbtn)
+//console.log( numOfbtn)
 async function  getMensdata(page){
     setLoading(true)
     try {
@@ -48,7 +48,7 @@ async function  getMensdata(page){
             console.log(res)
             setmenspro(res)
         })
-        console.log(data)
+       // console.log(data)
     } catch (error) {
         
     }
@@ -61,7 +61,7 @@ async function  getMensdata(page){
 function addTocart(id){
     axios.get(`https://63ca76f3d0ab64be2b5319f8.mockapi.io/womens/${id}`)
     .then((res)=>{
-        console.log(res.data)
+      //  console.log(res.data)
         delete res.data.id
         res.data.pcs=1
         postdataInCart(res.data)
@@ -180,10 +180,10 @@ function width(){
     return Loading?<Loadingindicator/>:(
         <>
        <Heading as="h2"   fontFamily={"Brush Script MT, Brush Script Std, cursive"}>Womens Section</Heading>
-       <Button margin={1} bg="yellow.400" onClick={asc}>Asc By Price</Button>
-        <Button  margin={1}  bg="yellow.400" onClick={desc}>Desc By Price </Button>
-        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Rating In Asc</Button>
-        <Button  margin={1} bg="yellow.400"  onClick={descRating}>Rating In Desc</Button>
+       <Button margin={1} bg="yellow.400" onClick={asc}>Sort By Price In Asc</Button>
+        <Button  margin={1}  bg="yellow.400" onClick={desc}>Sort By Price</Button>
+        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Sort By Rating In Asc</Button>
+        <Button  margin={1} bg="yellow.400"  onClick={descRating}> Sort By Rating In Desc</Button>
         <Box  style={{width:"90%",margin:"auto",display:"grid",gridTemplateColumns:`repeat(${col},1fr)`}} >
         {
                 menspro.map((e)=>{

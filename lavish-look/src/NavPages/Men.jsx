@@ -16,6 +16,8 @@ let [totalProucts,setTotalProducts]=useState(1)
 let [order,setOrder]=useState("")
 let [col,setCol]=useState(1)
 
+
+
 let toast=useToast()
 function getNumofproducts(){
    
@@ -184,10 +186,10 @@ function descRating(){
     return Loading?<Loadingindicator/>:(
         <>
           <Heading as="h2"   fontFamily={"Brush Script MT, Brush Script Std, cursive"}>Mens Section</Heading>
-        <Button margin={1} bg="yellow.400" onClick={asc}>Asc By Price</Button>
-        <Button  margin={1}  bg="yellow.400" onClick={desc}>Desc By Price </Button>
-        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Rating In Asc</Button>
-        <Button  margin={1} bg="yellow.400"  onClick={descRating}>Rating In Desc</Button>
+        <Button margin={1} bg="yellow.400" onClick={asc}>Sort By Price In asc</Button>
+        <Button  margin={1}  bg="yellow.400" onClick={desc}>Sort By Price In Desc </Button>
+        <Button  margin={1} bg="yellow.400"  onClick={ascRating}>Sort ByRating In Asc</Button>
+        <Button  margin={1} bg="yellow.400"  onClick={descRating}> Sort Rating In Desc</Button>
      
         <Box  style={{width:"90%",margin:"auto",display:"grid",gridTemplateColumns:`repeat(${col},1fr)`}} >
         {
